@@ -2,7 +2,7 @@
     "name": "owner888/phpspider",
     "type": "library",
     "keywords": [
-        "framework", 
+        "framework",
         "phpspider"
     ],
     "homepage": "http://www.phpspider.org",
@@ -24,7 +24,8 @@
         "source": "https://github.com/owner888/phpspider"
     },
     "require": {
-        "php": ">=5.5.0"
+        "php": ">=5.5.0",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "suggest": {
         "ext-pcntl、ext-redis": "For better performance. "
