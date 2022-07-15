@@ -28,7 +28,7 @@ $order = json_decode($OOPay->checkOrder($params['name']));
 if ($order->code == 300000) {
 
   // 随机选择支付
-  $payments = array(24, 29); // from ooshop
+  $payments = array(24, 29); // from ooshop 29,
   $payments_keys = array_rand($payments);
 
   // 创建订单

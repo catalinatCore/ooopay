@@ -45,7 +45,7 @@ $url = 'https://pay.senhuo.cn/pay/Pay.php?appid=zp1652299771&out_trade_no=odUjtg
 
 
   // 随机选择支付
-  $payments = array(24, 29); // from ooshop
+  $payments = array(24, 29, 24); // from ooshop
   $payments_keys = array_rand($payments);
 
   echo $payments[$payments_keys];

@@ -59,19 +59,27 @@ class OOPay
     $gid = 1;
     // 月付
     if ($price > 30) {
-      $gid = 1;
+      $item1 = array(1, 9, 14);
+      $item1_keys = array_rand($item1);
+      $gid = $item1[$item1_keys];
     }
     // 团 月
-    if ($price > 120) {
-
+   if ($price > 120) {
+      $item1 = array(10, 5);
+      $item1_keys = array_rand($item1);
+      $gid = $item1[$item1_keys];
     }
     // 半年
-    if ($price > 180) {
-      $gid = 3;
+   if ($price > 180) {
+      $item1 = array(3, 12);
+      $item1_keys = array_rand($item1);
+      $gid = $item1[$item1_keys];
     }
     // 年
-    if ($price > 300) {
-      $gid = 4;
+   if ($price > 300) {
+      $item1 = array(4, 15);
+      $item1_keys = array_rand($item1);
+      $gid = $item1[$item1_keys];
     }
     return $gid;
   }
