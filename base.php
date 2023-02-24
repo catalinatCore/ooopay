@@ -22,7 +22,7 @@ class OOPay
     ]);
     $this->createUrl  = 'https://ooshop.vip/create-order-api/';
     $this->checkUrl   = 'https://ooshop.vip/check-order-status/';
-    $this->getOrderDetailUrl   = 'https://ooshop.vip/detail-order-sn/';
+    $this->getOrderDetailUrl   = 'https://ooshop.vip/search-order-by-sn/';
     $this->qrcUrl     = 'https://qrc.hp.ooshop.vip/gePayQRC.php';
     $this->payPageUrl = 'https://ooshop.vip/pay-gateway/pay%252Fhpjalipay/hpjalipay/';
   }
@@ -54,7 +54,8 @@ class OOPay
     return md5($str);
   }
 
-  function getGid($price) {
+  function getGid($price)
+  {
     // 根据金额判断下哪个单
     $gid = 1;
     // 月付
@@ -64,24 +65,48 @@ class OOPay
       $gid = $item1[$item1_keys];
     }
     // 团 月
-   if ($price > 120) {
+    if ($price > 120) {
       $item1 = array(10, 5);
       $item1_keys = array_rand($item1);
       $gid = $item1[$item1_keys];
     }
     // 半年
-   if ($price > 180) {
+    if ($price > 180) {
       $item1 = array(3, 12);
       $item1_keys = array_rand($item1);
       $gid = $item1[$item1_keys];
     }
     // 年
-   if ($price > 300) {
+    if ($price > 300) {
       $item1 = array(4, 15);
       $item1_keys = array_rand($item1);
       $gid = $item1[$item1_keys];
     }
     return $gid;
+  }
+
+  function getWechatQrCode($order_id)
+  {
+    $getHtmlFileName = 'https://ooshop.vip/download/' . $order_id . '.html';
+
+    $stream_opts = [
+      "ssl" => [
+        "verify_peer" => false,
+        "verify_peer_name" => false,
+      ]
+    ];
+
+    $html = file_get_contents($getHtmlFileName, false, stream_context_create($stream_opts));
+
+    $regex = "#<script(.*?)>(.*?)</script>#is";
+    preg_match_all($regex, $html, $scripts);
+    $scriptsString = end(end($scripts));
+    $scriptsStringArr = explode(';', $scriptsString);
+    $scriptsStringArr = explode(',', $scriptsStringArr[0]);
+    $qrcStr = str_replace("'", "", $scriptsStringArr[3]);
+    $qrcStr = str_replace(")", "", $qrcStr);
+
+    return $qrcStr;
   }
 
   // function gotoPaymentPage($params) {

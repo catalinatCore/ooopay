@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>微信支付收银台</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+<link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_3286694_jurvuhcxzza.css">
+<link rel="shortcut icon" href="https://pay.senhuo.cn/wp-content/themes/ZhanPay/assets/img/icon.svg"/>
+<script type="text/javascript" src="https://pay.senhuo.cn/wp-content/themes/ZhanPay/assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://pay.senhuo.cn/wp-content/themes/ZhanPay/assets/js/jquery.qrcode.min.js"></script>
+<script type="text/javascript" src="https://pay.senhuo.cn/wp-content/themes/ZhanPay/assets/js/function.js?ver=1655316541"></script>
+<script type="text/javascript">var zhanpay={"ajax_url":"https:\/\/pay.senhuo.cn\/wp-content\/themes\/ZhanPay\/module","theme_url":"https:\/\/pay.senhuo.cn\/wp-content\/themes\/ZhanPay","home_url":"https:\/\/pay.senhuo.cn","user_id":0,"appid":false,"is_mobile":false,"is_wechat":false,"is_login":0};</script>
+<style type="text/css">body{margin:0;padding:40px 0;color:#000000;background:#f8f9fb;font:14px/1.6 "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;}.zhanpay-content{width:1050px;height:593px;margin:0 auto;position:relative;border-radius:4px;background-color:#ffffff;}.zhanpay-content .logo.wechat{width:158px;height:21px;position:absolute;top:40px;left:63px;z-index:11;background-image:url(../wp-content/themes/ZhanPay/assets/img/logo_wechatpay.svg),none;}.zhanpay-no-para{padding:160px 20px;text-align:center;}.zhanpay-no-para i{font-size:80px;color:#f76260;}.zhanpay-no-para p{font-size:18px;color:#333;}.zhanpay-order-content{padding:160px 120px;display:flex;letter-spacing:2px;}.zhanpay-order-content .left{text-align:center;padding-right:120px;border-right:2px dotted #eee;flex:1;}.zhanpay-order-content .left .title{color:#555;margin-bottom:20px;}.zhanpay-order-content .left .tips{color:#555;margin-top:20px;}.zhanpay-order-content .left canvas{border-radius:4px;}.zhanpay-order-content .right{padding-left:120px;flex:1;}.zhanpay-order-content .right .title{font-size:18px;margin-bottom:10px;}.zhanpay-order-content .right .total span{font-size:50px;}.zhanpay-order-content .right .total m{font-size:20px;vertical-align:15px;margin-right:10px;font-weight:bold;}.zhanpay-order-content .right li{list-style:none;margin-top:10px;}.zhanpay-order-content .right li span{color:#999;margin-right:20px;}.zhanpay-order-content .right li m{letter-spacing:normal;}.zhanpay-order-content .right .total{margin-bottom:40px;}.zhanpay-copyright{text-align:center;padding-bottom:20px;color:#e4e4e4;cursor:pointer;letter-spacing:2px;}.zhanpay-order-content .left #qrcode i{font-size:60px;color:#4caf50;}@media(max-width:669px){body{padding:0;}.zhanpay-content{width:100%;}}</style>
+</head>
+<body>
+<div class="zhanpay-content">
+<div class="logo wechat"></div>
+<div class="zhanpay-order-content">
+<div class="left">
+<div class="title">订单将在5分钟后关闭，请及时付款</div>
+<div id="qrcode"></div>
+<div class="tips">请使用微信扫一扫完成支付</div>
+</div>
+<div class="right">
+<div class="title">这是商品名称</div>
+<div class="total">
+<m>￥</m><span>0.01</span>
+</div>
+<li><span>下单时间</span><m>2022-06-16 02:09</m></li>
+<li><span>订单编号</span><m>16552024378342261</m></li>
+</div>
+</div>
+<div class="zhanpay-copyright">由 站长支付 提供技术支持</div>
+</div>
+<script type="text/javascript">zhanpay_qrcode('qrcode',200,200,'weixin://wxpay/bizpayurl?pr=S7rvdDczz');zhanpay_pay_order_check('order','16552024378342261','https://pay.senhuo.cn/panel');</script>
+</body>
+</html>

@@ -1,20 +1,50 @@
 <?php
+
 include_once('../base.php');
 
-$order_id = $_GET['name'] ? $_GET['name'] : '';
+$sign = $_GET['sign'] ? $_GET['sign'] : '';
 
-$html = file_get_contents('https://ooshop.vip/download/' . $order_id . '.html');
-$regex = "#<script(.*?)>(.*?)</script>#is";
-preg_match_all($regex, $html, $scripts);
-$scriptsString = end(end($scripts));
-$scriptsStringArr = explode(';', $scriptsString);
-$scriptsStringArr = explode(',', $scriptsStringArr[0]);
-$qrcStr = str_replace("'", "", $scriptsStringArr[3]);
-$qrcStr = str_replace(")", "", $qrcStr);
+$params = [
+  'money' => $_GET['money'] ? $_GET['money'] : '',
+  'name' => $_GET['name'] ? $_GET['name'] : '',
+  'notify_url' => $_GET['notify_url'] ? $_GET['notify_url'] : '',
+  'return_url' => $_GET['return_url'] ? $_GET['return_url'] : '',
+  'out_trade_no' => $_GET['out_trade_no'] ? $_GET['out_trade_no'] : '',
+  'pid' => $_GET['pid'] ? $_GET['pid'] : ''
+];
 
-echo $html;
-exit;
+$OOPay = new OOPay();
 
+// 缺少参数
+if (!$params['money'] || !$sign) die('<hr>404|ERROR');
+// 签名验证
+if ($sign != $OOPay->sign($params)) {
+  die('签名验证失败，请求参数已被篡改');
+}
+
+$order = json_decode($OOPay->checkOrder($params['name']));
+
+//不存在
+if ($order->code == 300000) {
+
+  // 随机选择支付
+  $payments = array(30); // 30 = 微信 for me
+  $payments_keys = array_rand($payments);
+
+  // 创建订单
+  $order = [
+    'gid' => $OOPay->getGid($params['money']),
+    'email' => 'oopay_customer@gmail.com',
+    'payway' => $payments[$payments_keys],
+    'price' => $params['money'],
+    'by_amount' => 1,
+    'order_id' => $params['name']
+  ];
+  $OOPay->createOrder($order);
+}
+
+$qrcStr = $OOPay->getWechatQrCode($params['name']);
+$returnURl = 'https://catcloud.in/#/order';
 ?>
 <!DOCTYPE html>
 <html>

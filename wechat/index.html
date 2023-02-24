@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>微信支付收银台</title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <script type="text/javascript" src="/order/wechat/assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/order/wechat/assets/js/jquery.qrcode.min.js"></script>
+  <script type="text/javascript" src="/order/wechat/assets/js/function.js"></script>
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 40px 0;
+      color: #000000;
+      background: #f8f9fb;
+      font: 14px/1.6 "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "\9ED1\4F53", Arial, sans-serif;
+    }
+
+    .ooopay-content {
+      width: 1050px;
+      height: 593px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 4px;
+      background-color: #ffffff;
+    }
+
+    .ooopay-content .logo.wechat {
+      width: 158px;
+      height: 21px;
+      position: absolute;
+      top: 40px;
+      left: 63px;
+      z-index: 11;
+      background-image: url(../wp-content/themes/ZhanPay/assets/img/logo_wechatpay.svg), none;
+    }
+
+    .ooopay-no-para {
+      padding: 160px 20px;
+      text-align: center;
+    }
+
+    .ooopay-no-para i {
+      font-size: 80px;
+      color: #f76260;
+    }
+
+    .ooopay-no-para p {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .ooopay-order-content {
+      padding: 160px 120px;
+      display: flex;
+      letter-spacing: 2px;
+    }
+
+    .ooopay-order-content .left {
+      text-align: center;
+      padding-right: 120px;
+      border-right: 2px dotted #eee;
+      flex: 1;
+    }
+
+    .ooopay-order-content .left .title {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .ooopay-order-content .left .tips {
+      color: #555;
+      margin-top: 20px;
+    }
+
+    .ooopay-order-content .left canvas {
+      border-radius: 4px;
+    }
+
+    .ooopay-order-content .right {
+      padding-left: 120px;
+      flex: 1;
+    }
+
+    .ooopay-order-content .right .title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .ooopay-order-content .right .total span {
+      font-size: 50px;
+    }
+
+    .ooopay-order-content .right .total m {
+      font-size: 20px;
+      vertical-align: 15px;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    .ooopay-order-content .right li {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .ooopay-order-content .right li span {
+      color: #999;
+      margin-right: 20px;
+    }
+
+    .ooopay-order-content .right li m {
+      letter-spacing: normal;
+    }
+
+    .ooopay-order-content .right .total {
+      margin-bottom: 40px;
+    }
+
+    .ooopay-copyright {
+      text-align: center;
+      padding-bottom: 20px;
+      color: #e4e4e4;
+      cursor: pointer;
+      letter-spacing: 2px;
+    }
+
+    .ooopay-order-content .left #qrcode i {
+      font-size: 60px;
+      color: #4caf50;
+    }
+
+    @media(max-width:669px) {
+      body {
+        padding: 0;
+      }
+
+      .ooopay-content {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ooopay-content">
+    <div class="logo wechat"></div>
+    <div class="ooopay-order-content">
+      <div class="left">
+        <div class="title">订单将在5分钟后关闭，请及时付款</div>
+        <div id="qrcode"></div>
+        <div class="tips">请使用微信扫一扫完成支付</div>
+      </div>
+      <div class="right">
+        <div class="total">
+          <m>￥</m><span>0.01</span>
+        </div>
+        <li><span>订单编号</span>
+          <m>16552024378342261</m>
+        </li>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    zhanpay_qrcode('qrcode',200,200,'weixin://wxpay/bizpayurl?pr=S7rvdDczz')
+  </script>
+</body>
+
+</html>

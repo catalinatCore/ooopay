@@ -18,7 +18,7 @@ use GuzzleHttp\Client;
 // var_dump($scriptsStringArr);
 
 
-$url = 'https://pay.senhuo.cn/pay/Pay.php?appid=zp1652299771&out_trade_no=odUjtgq0ezsUG02E&pay_type=wechat&redirect_url=https%3A%2F%2Fooshop.vip%2Fpay%2Fzpay%2Freturn_url%3Forder_id%3DodUjtgq0ezsUG02E&sub_notify_url=https%3A%2F%2Fooshop.vip%2Fpay%2Fzpay%2Fnotify_url&title=%E6%88%90%E5%93%81%E5%8F%B7+%7C+%E7%BE%8E%E5%8C%BAID%E5%B7%B2%E4%B9%B0Shadowrocket%E5%B0%8F%E7%81%AB%E7%AE%AD%EF%BC%88%E7%8B%AC%E4%BA%AB%EF%BC%89x1&total=3900&sign=3982a91188eb5d565b7a8db58b0d7141';
+$url = 'https://pay.senhuo.cn/pay/Pay.php?appid=zp1652299771&out_trade_no=q6Y0lBkjCg9jXJOk&pay_type=wechat&redirect_url=https%3A%2F%2Fooshop.vip%2Fpay%2Fzpay%2Freturn_url%3Forder_id%3Dq6Y0lBkjCg9jXJOk&sub_notify_url=https%3A%2F%2Fooshop.vip%2Fpay%2Fzpay%2Fnotify_url&title=q6Y0lBkjCg9jXJOk&total=3900&sign=56aa8d798fbd7904b9107660544e60b7';
 
   function download($file_source, $file_target) {
     $rh = fopen($file_source, 'rb');
@@ -41,14 +41,14 @@ $url = 'https://pay.senhuo.cn/pay/Pay.php?appid=zp1652299771&out_trade_no=odUjtg
     return true;
   }
 
-  // var_dump(download($url, 'download/odUjtgq0ezsUG02E.html'));
+  var_dump(download($url, 'download/1.html'));
 
 
   // 随机选择支付
-  $payments = array(24, 29, 24); // from ooshop
-  $payments_keys = array_rand($payments);
+  // $payments = array(24, 29, 24); // from ooshop
+  // $payments_keys = array_rand($payments);
 
-  echo $payments[$payments_keys];
+  // echo $payments[$payments_keys];
 
 exit;
 // function download($file_source, $file_target) {

@@ -28,7 +28,7 @@ $order = json_decode($OOPay->checkOrder($params['name']));
 if ($order->code == 300000) {
 
   // 随机选择支付
-  $payments = array(24, 29); // from ooshop 29,
+  $payments = array(29); // from ooshop 29,  // 24 = 王东林,
   $payments_keys = array_rand($payments);
 
   // 创建订单
@@ -44,7 +44,7 @@ if ($order->code == 300000) {
 }
 
 $qrcode = 'https://qrc.ooopay.in/qrcode/' . $params['name'] . '.png';
-$returnURl = 'https://catcloud.app/#/order';
+$returnURl = 'https://catcloud.in/#/order';
 ?>
 
 <!DOCTYPE html>
