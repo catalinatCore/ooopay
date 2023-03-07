@@ -31,7 +31,8 @@ class OOPay
   {
     $response = $this->client->post($this->createUrl, [
       'form_params' => $order,
-      'timeout' => 15 //设置请求超时时间
+      'timeout' => 15, //设置请求超时时间
+      'verify' => false
     ]);
     $body = $response->getBody(); //获取响应体，对象
     $bodyStr = (string)$body; //对象转字串,这就是请求返回的结果
@@ -87,7 +88,7 @@ class OOPay
 
   function getWechatQrCode($order_id)
   {
-    $getHtmlFileName = 'https://ooshop.vip/download/' . $order_id . '.html';
+    $getHtmlFileName = 'https://ooshop.vip/uploads/html/' . $order_id . '.html';
 
     $stream_opts = [
       "ssl" => [

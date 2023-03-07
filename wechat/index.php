@@ -4,6 +4,15 @@ include_once('../base.php');
 
 $sign = $_GET['sign'] ? $_GET['sign'] : '';
 
+/*
+https://ooopay.in/order/wechat/?money=129&name=2023030517031827224&
+  notify_url=https://catcloud.in/api/v1/guest/payment/notify/OOPay/NPyQaIel
+  &out_trade_no=2023030517031827224&pid=123
+  &return_url=https://catcloud.in/#/order/2023030517031827224
+  &sign=5e7c0fd876318a37b60d626114ec18c1
+  &sign_type=MD5
+*/
+
 $params = [
   'money' => $_GET['money'] ? $_GET['money'] : '',
   'name' => $_GET['name'] ? $_GET['name'] : '',
