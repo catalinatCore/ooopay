@@ -12,6 +12,7 @@ class OOPay
   var $getOrderDetailUrl;
   var $qrcUrl;
   var $payPageUrl;
+  var $orderStatusURL;
 
   function __construct()
   {
@@ -25,6 +26,7 @@ class OOPay
     $this->getOrderDetailUrl   = 'https://ooshop.vip/search-order-by-sn/';
     $this->qrcUrl     = 'https://qrc.hp.ooshop.vip/gePayQRC.php';
     $this->payPageUrl = 'https://ooshop.vip/pay-gateway/pay%252Fhpjalipay/hpjalipay/';
+    $this->orderStatusURL = 'https://ooshop.vip/pay/alipayOrder/';
   }
 
   function createOrder($order)
@@ -42,6 +44,14 @@ class OOPay
   function checkOrder($order_id)
   {
     $response = $this->client->get($this->checkUrl . $order_id);
+    $body = $response->getBody(); //获取响应体，对象
+    $bodyStr = (string)$body; //对象转字串,这就是请求返回的结果
+    return $bodyStr;
+  }
+
+  function getOrderStatus($order_id)
+  {
+    $response = $this->client->get($this->orderStatusURL . $order_id);
     $body = $response->getBody(); //获取响应体，对象
     $bodyStr = (string)$body; //对象转字串,这就是请求返回的结果
     return $bodyStr;

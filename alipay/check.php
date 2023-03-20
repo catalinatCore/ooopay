@@ -2,7 +2,7 @@
 include_once('../base.php');
 $order_id = $_GET['name'] ? $_GET['name'] : '';
 $OOPay = new OOPay();
-$order = json_decode($OOPay->checkOrder($order_id));
+$order = json_decode($OOPay->getOrderStatus($order_id));
 
 // 已经过期
 if ($order->code == 400001) {
