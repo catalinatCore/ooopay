@@ -28,7 +28,11 @@ $order = json_decode($OOPay->checkOrder($params['name']));
 if ($order->code == 300000) {
 
   // 随机选择支付
-  $payments = array(33); // lty
+  /*
+  lty: 33
+  lem: 34
+  */
+  $payments = array(33, 34);
   $payments_keys = array_rand($payments);
 
   // 创建订单
