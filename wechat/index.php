@@ -131,7 +131,12 @@ $returnURl = 'https://catcloud.in/#/order';
     })(jQuery);
   </script>
   <script type="text/javascript">
-    qrcode('qrcode', 200, 200, '<? echo $qrcStr; ?>')
+    var qrc = '<? echo $qrcStr; ?>';
+    if (qrc) {
+      qrcode('qrcode', 200, 200, '<? echo $qrcStr; ?>')
+    } else {
+      $('.uk-cover-container').empty().html(`<p class="uk-placeholder uk-width-1-1 uk-text-primary uk-text-center">该支付通道暂不可用，请返回取消订单重新尝试下单，或联系客服处理。</p>`)
+    }
   </script>
 </body>
 

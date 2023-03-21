@@ -107,7 +107,19 @@ class OOPay
       ]
     ];
 
-    $html = file_get_contents($getHtmlFileName, false, stream_context_create($stream_opts));
+    set_error_handler(
+      function ($severity, $message, $file, $line) {
+        // throw new ErrorException('该支付通道发生故障，请取消订单重新尝试下单，或联系客服处理。', $severity, $severity, $file, $line);
+      }
+    );
+
+    try {
+      $html = file_get_contents($getHtmlFileName, false, stream_context_create($stream_opts));
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }
+
+    restore_error_handler();
 
     $regex = "#<script(.*?)>(.*?)</script>#is";
     preg_match_all($regex, $html, $scripts);
