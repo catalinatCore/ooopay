@@ -13,6 +13,8 @@ class OOPay
   var $qrcUrl;
   var $payPageUrl;
   var $orderStatusURL;
+  var $changePaymentURL;
+  var $getV2boardOrderStatusURL;
 
   function __construct()
   {
@@ -27,6 +29,8 @@ class OOPay
     $this->qrcUrl     = 'https://qrc.hp.ooshop.vip/gePayQRC.php';
     $this->payPageUrl = 'https://ooshop.vip/pay-gateway/pay%252Fhpjalipay/hpjalipay/';
     $this->orderStatusURL = 'https://ooshop.vip/pay/alipayOrder/';
+    $this->changePaymentURL = 'https://catcloud.in/api/v1/guest/order/checkout';
+    $this->getV2boardOrderStatusURL = 'https://catcloud.in/api/v1/guest/order/status';
   }
 
   function createOrder($order)
@@ -55,6 +59,37 @@ class OOPay
     $body = $response->getBody(); //获取响应体，对象
     $bodyStr = (string)$body; //对象转字串,这就是请求返回的结果
     return $bodyStr;
+  }
+
+  function changePayment($order_id) {
+    try {
+      $response = $this->client->post($this->changePaymentURL, [
+        'form_params' => [
+          'trade_no' => $order_id,
+          'method' => 9
+        ]
+      ]);
+      $body = $response->getBody();
+      $bodyStr = (string)$body;
+      return $bodyStr;
+    } catch (\Throwable $th) {
+      return json_encode(['error' => '订单已取消', 'code' => 500]);
+    }
+  }
+
+  function getV2boardOrderStatus($order_id) {
+    try {
+      $response = $this->client->post($this->getV2boardOrderStatusURL, [
+        'form_params' => [
+          'trade_no' => $order_id,
+        ]
+      ]);
+      $body = $response->getBody();
+      $bodyStr = (string)$body;
+      return $bodyStr;
+    } catch (\Throwable $th) {
+      return json_encode(['error' => '订单不存在', 'code' => 500]);
+    }
   }
 
   function sign($params)
