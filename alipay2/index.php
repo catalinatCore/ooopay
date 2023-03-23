@@ -263,6 +263,7 @@ $returnURl = 'https://catcloud.in/#/order';
   <script type="text/javascript">
     (function($) {
       var order_id = <?php echo json_encode($_GET['name']); ?>;
+      var price = <?php echo json_encode($_GET['money']); ?>;
       var qrcodeIsGenerator = false
       var isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
@@ -376,6 +377,7 @@ $returnURl = 'https://catcloud.in/#/order';
           url: '/order/alipay2/changePayment.php',
           data: {
             order_id: order_id,
+            price: price,
             method: 'query'
           },
           timeout: 6000,

@@ -4,6 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use GuzzleHttp\Client;
 
+include_once 'Logger.php';
 class OOPay
 {
   var $client;
@@ -61,7 +62,15 @@ class OOPay
     return $bodyStr;
   }
 
-  function changePayment($order_id) {
+  function changePayment($order_id, $price)
+  {
+    $message = '
+<b># User Change payment</b>
+Price: <code>￥' . $price . '</code>
+OrderID: <code>' . $order_id . '</code>
+';
+    $this->sendTGMessage($message);
+
     try {
       $response = $this->client->post($this->changePaymentURL, [
         'form_params' => [
@@ -72,12 +81,21 @@ class OOPay
       $body = $response->getBody();
       $bodyStr = (string)$body;
       return $bodyStr;
-    } catch (\Throwable $th) {
+    } catch (PDOException $e) {
+      Logger::error("ChangePaymentURL Request Error", [$e->getMessage()]);
       return json_encode(['error' => '订单已取消', 'code' => 500]);
     }
   }
 
-  function getV2boardOrderStatus($order_id) {
+  function sendTGMessage($message)
+  {
+    $telegram = new Telegram('1971956101:AAHtw8r2Mxh-a7dbMOGff_q4PMif35NHUec');
+    $content = ['chat_id' => 597591106, 'parse_mode' => 'html', 'text' => $message];
+    $telegram->sendMessage($content);
+  }
+
+  function getV2boardOrderStatus($order_id)
+  {
     try {
       $response = $this->client->post($this->getV2boardOrderStatusURL, [
         'form_params' => [
@@ -87,7 +105,8 @@ class OOPay
       $body = $response->getBody();
       $bodyStr = (string)$body;
       return $bodyStr;
-    } catch (\Throwable $th) {
+    } catch (PDOException $e) {
+      Logger::fatal("Telegram Request Error", [$e->getMessage()]);
       return json_encode(['error' => '订单不存在', 'code' => 500]);
     }
   }
