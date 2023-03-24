@@ -32,7 +32,7 @@ if ($order->code == 300000) {
   lty: 33
   lem: 34
   */
-  $payments = array(33, 34);
+  $payments = array(33);
   $payments_keys = array_rand($payments);
 
   // 创建订单
@@ -389,6 +389,10 @@ $returnURl = 'https://catcloud.in/#/order';
             if (e.error || !e.data) {
               $('#qrcode').empty().append(`订单超时已取消，请反回重新下单`)
               return
+            }
+
+            if (e.data.includes('/order/wechat')) {
+              e.data = e.data + '&method=changePayment';
             }
 
             $('#qrcode')

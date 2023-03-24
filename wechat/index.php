@@ -3,6 +3,7 @@
 include_once('../base.php');
 
 $sign = $_GET['sign'] ? $_GET['sign'] : '';
+$method = $_GET['method'] ? $_GET['method'] : '';
 
 /*
 https://ooopay.in/order/wechat/?money=129&name=2023030517031827224&
@@ -24,11 +25,17 @@ $params = [
 
 $OOPay = new OOPay();
 
-// 缺少参数
-if (!$params['money'] || !$sign) die('<hr>404|ERROR');
-// 签名验证
-if ($sign != $OOPay->sign($params)) {
-  die('签名验证失败，请求参数已被篡改');
+
+// Change payment method
+if ($method == 'changePayment') {
+  $OOPay->changePaymentForOOShop($params['name'], $params['money']);
+} else {
+  // 缺少参数
+  if (!$params['money'] || !$sign) die('<hr>404|ERROR');
+  // 签名验证
+  if ($sign != $OOPay->sign($params)) {
+    die('签名验证失败，请求参数已被篡改');
+  }
 }
 
 $order = json_decode($OOPay->checkOrder($params['name']));
@@ -70,7 +77,7 @@ $returnURl = 'https://catcloud.in/#/order';
 
 <body>
 
-  <div class="uk-container uk-container-xsmall uk-margin-top">
+  <div class="uk-container uk-container-xsmall uk-margin-xlarge-top uk-margin-remove-top@s">
     <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-1@s uk-margin" uk-grid>
       <h4 class="uk-heading-bullet uk-padding">微信支付收银台</h4>
       <div class="uk-card-media-left uk-cover-container">
@@ -79,11 +86,14 @@ $returnURl = 'https://catcloud.in/#/order';
       </div>
       <div>
         <div class="uk-card-body uk-text-center">
-          <h3 class="uk-card-title">
-            <m>￥</m><span><?php echo $_GET['money']; ?></span>
+          <h3 class="uk-card-title uk-text-default">
+            <span class="uk-text-default uk-text-danger">¥</span>
+            <span class="uk-text-large uk-text-danger" style="font-size: 2.5em;"><?php echo $_GET['money']; ?></span>
           </h3>
           <div class="title">订单号: <?php echo $_GET['name']; ?></div>
+          <hr>
           <p>请使用微信扫一扫完成支付</p>
+          <p id="mobile-tips" class="uk-text-danger uk-hidden">📌 微信不支持截图至相册扫码，请使用备用手机或电脑打开后扫码</p>
         </div>
       </div>
     </div>
@@ -91,7 +101,6 @@ $returnURl = 'https://catcloud.in/#/order';
   <script type="text/javascript">
     (function($) {
       var order_id = <?php echo json_encode($_GET['name']); ?>;
-
       function queryOrderStatus() {
         $.ajax({
           type: 'get',
@@ -129,6 +138,12 @@ $returnURl = 'https://catcloud.in/#/order';
       }
       queryOrderStatus();
     })(jQuery);
+
+    // Response
+    var isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobileDevice) {
+      $('#mobile-tips').removeClass('uk-hidden')
+    }
   </script>
   <script type="text/javascript">
     var qrc = '<? echo $qrcStr; ?>';

@@ -15,6 +15,7 @@ class OOPay
   var $payPageUrl;
   var $orderStatusURL;
   var $changePaymentURL;
+  var $changePaymentForOOShopURL;
   var $getV2boardOrderStatusURL;
 
   function __construct()
@@ -31,6 +32,7 @@ class OOPay
     $this->payPageUrl = 'https://ooshop.vip/pay-gateway/pay%252Fhpjalipay/hpjalipay/';
     $this->orderStatusURL = 'https://ooshop.vip/pay/alipayOrder/';
     $this->changePaymentURL = 'https://catcloud.in/api/v1/guest/order/checkout';
+    $this->changePaymentForOOShopURL = 'https://ooshop.vip/changePayment/';
     $this->getV2boardOrderStatusURL = 'https://catcloud.in/api/v1/guest/order/status';
   }
 
@@ -41,9 +43,16 @@ class OOPay
       'timeout' => 15, //设置请求超时时间
       'verify' => false
     ]);
-    $body = $response->getBody(); //获取响应体，对象
-    $bodyStr = (string)$body; //对象转字串,这就是请求返回的结果
-    return $bodyStr;
+    try {
+      $body = $response->getBody(); //获取响应体，对象
+      $bodyStr = (string)$body; //对象转字串,这就是请求返回的结果
+      return $bodyStr;
+    } catch (PDOException $e) {
+      $message = '
+      <b>🚨 Error: getWechatQrCode</b>
+      <code>' . $e->getMessage() . '</code>';
+      $this->sendTGMessage($message);
+    }
   }
 
   function checkOrder($order_id)
@@ -65,7 +74,7 @@ class OOPay
   function changePayment($order_id, $price)
   {
     $message = '
-<b># User Change payment</b>
+<b># User has switched payment</b>
 Price: <code>￥' . $price . '</code>
 OrderID: <code>' . $order_id . '</code>
 ';
@@ -75,7 +84,7 @@ OrderID: <code>' . $order_id . '</code>
       $response = $this->client->post($this->changePaymentURL, [
         'form_params' => [
           'trade_no' => $order_id,
-          'method' => 9
+          'method' => 10
         ]
       ]);
       $body = $response->getBody();
@@ -83,6 +92,19 @@ OrderID: <code>' . $order_id . '</code>
       return $bodyStr;
     } catch (PDOException $e) {
       Logger::error("ChangePaymentURL Request Error", [$e->getMessage()]);
+      return json_encode(['error' => '订单已取消', 'code' => 500]);
+    }
+  }
+
+  function changePaymentForOOShop($order_id, $price)
+  {
+    try {
+      $response = $this->client->get($this->changePaymentForOOShopURL . $order_id);
+      $body = $response->getBody();
+      $bodyStr = (string)$body;
+      return $bodyStr;
+    } catch (PDOException $e) {
+      Logger::error("changePaymentForOOShop Request Error", [$e->getMessage()]);
       return json_encode(['error' => '订单已取消', 'code' => 500]);
     }
   }
@@ -163,6 +185,11 @@ OrderID: <code>' . $order_id . '</code>
 
     set_error_handler(
       function ($severity, $message, $file, $line) {
+
+        $message = '
+        <b>🚨 Error: getWechatQrCode</b>
+        <code>' . $message . '</code>';
+        $this->sendTGMessage($message);
         // throw new ErrorException('该支付通道发生故障，请取消订单重新尝试下单，或联系客服处理。', $severity, $severity, $file, $line);
       }
     );
